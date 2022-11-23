@@ -9,7 +9,10 @@ void start_timer(void) {
     unsigned int a = 0;
 
     char buf[100];
-    while(1){                
+    while(1){         
+
+    EffacerEcran(CouleurParNom("white"));
+
         unsigned long int seconde = ((Microsecondes() - start) / 1000000)-a;
         
         if (seconde>=60) {
