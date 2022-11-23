@@ -22,7 +22,6 @@ int main(void) {
   Zone easy = {100,350, 150, 75};
   Zone medium = {100,450, 150, 75};
   Zone hard = {100,550, 150, 75};
-  Zone quitter = {20,675, 150, 75};
 
   InitialiserGraphique(); 
   CreerFenetre(0,0,1250,750);
@@ -45,7 +44,6 @@ int main(void) {
   dessinerbouton(easy, "Easy", CouleurParNom("black"), 2);
   dessinerbouton(medium, "Medium", CouleurParNom("black"), 2);
   dessinerbouton(hard, "Hard", CouleurParNom("black"), 2);
-  dessinerbouton(quitter, "Quitter", CouleurParNom("red"), 2);
 
   while(boucle) {
     SourisPosition();
@@ -58,9 +56,6 @@ int main(void) {
         boucle = 0;
       }
       if(checkzone(hard, _X, _Y)) {
-        boucle = 0;
-      }
-      if(checkzone(quitter, _X, _Y)) {
         boucle = 0;
       }
 
