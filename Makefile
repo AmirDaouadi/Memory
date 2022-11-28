@@ -11,4 +11,6 @@ ${EXE} : ${OFILES}
 clean :
 	-rm -f ${OFILES}
 
-.PHONY : but clean
+mrproper : clean but 
+
+.PHONY : but clean mrproper
