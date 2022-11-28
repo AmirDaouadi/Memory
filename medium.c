@@ -2,13 +2,13 @@
 #include<stdlib.h>
 #include<graph.h>
 
-void easy(void) {
+void medium(void) {
     ChargerImageFond("./pp/ciel.jpg");
     ChoisirCouleurDessin(CouleurParNom("black"));
 
-    for (unsigned int l = 0; l < 2; l += 1) {
-        for (unsigned int c = 0; c < 2; c += 1) {
-            DessinerRectangle( 330 + (c * 295)+15, 50 + (l * 295)+15 , 265 , 265 );
+    for (unsigned int l = 0; l < 4; l += 1) {
+        for (unsigned int c = 0; c < 4; c += 1) {
+            DessinerRectangle( 385 + (c * 120)+10, 135 + (l * 120)+10 , 100 , 100 );
         }
     }
     
@@ -17,6 +17,6 @@ void easy(void) {
 int main (void) {
     InitialiserGraphique();
     CreerFenetre(0 , 0 , 1250 , 750);
-    easy();
+    medium();
     return EXIT_SUCCESS;
 }
