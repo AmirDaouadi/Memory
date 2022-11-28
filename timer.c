@@ -1,17 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<graph.h>
-#define delta 1000000L
+#define DELTA 1000000L
 
-unsigned long timer(void) {
-    return Microsecondes();
-}
-Microsecondes();
-
-void maj_timer(unsigned long temps) {
-    int secondes = ((Microsecondes() - temps) / delta);
-    int minutes = 0;
-    char texte[15];
+void maj_timer(unsigned long start) {
+    unsigned int secondes = ((Microsecondes() - start) / DELTA);
+    unsigned int minutes = 0;
+    char buf[100];
         
     while (secondes >= 60) {
         minutes += 1;
@@ -19,10 +14,20 @@ void maj_timer(unsigned long temps) {
     }
 
     ChoisirEcran(3);
-    EffacerEcran(CouleurParComposante(54, 57, 63));
-    ChoisirCouleurDessin(CouleurParNom("white"));
-    snprintf(buf, 100, "temps : %02d:%02d", minutes, secondes);
-    EcrireTexte(20, 20, buf, 1);
-    CopierZone(3, 0, 0, 0, 150, 30, 0, 0);
+    ChargerImageFond("./pp/ciel.jpg");
+    ChoisirCouleurDessin(CouleurParNom("black"));
+    snprintf(buf, 100, "Temps : %02d:%02d", minutes, secondes);
+    EcrireTexte(570, 20, buf, 1);
+    CopierZone(3, 0, 570, 0, 150, 30, 570, 0);
     ChoisirEcran(0);
+}
+
+unsigned long timer(unsigned long start) {
+    start = Microsecondes() - start;
+    maj_timer(start);
+    return start;
+}
+
+unsigned long end_timer(unsigned long start) {
+    return Microsecondes()-start;
 }

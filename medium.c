@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<graph.h>
+#include"timer.h"
 
-void medium(void) {
+void moyen(void) {
     ChargerImageFond("./pp/ciel.jpg");
     ChoisirCouleurDessin(CouleurParNom("black"));
 
@@ -11,12 +12,20 @@ void medium(void) {
             DessinerRectangle( 385 + (c * 120)+10, 135 + (l * 120)+10 , 100 , 100 );
         }
     }
-    
+
+    unsigned long chrono = timer(0);
+
+    while (1) {
+        maj_timer(chrono);
+    }
+
     Touche();
 }
+/*
 int main (void) {
     InitialiserGraphique();
     CreerFenetre(0 , 0 , 1250 , 750);
-    medium();
+    moyen();
     return EXIT_SUCCESS;
 }
+*/

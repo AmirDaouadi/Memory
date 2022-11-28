@@ -3,7 +3,8 @@
 #include<graph.h>
 #include"timer.h"
 
-void hard(void) {
+
+void difficile(void) {
     ChargerImageFond("./pp/ciel.jpg");
     ChoisirCouleurDessin(CouleurParNom("black"));
 
@@ -13,11 +14,19 @@ void hard(void) {
         }
     }
     
+    unsigned long chrono = timer(0);
+
+    while (1) {
+        maj_timer(chrono);
+    }
+
     Touche();
 }
+/*
 int main (void) {
     InitialiserGraphique();
     CreerFenetre(0 , 0 , 1250 , 750);
-    hard();
+    difficile();
     return EXIT_SUCCESS;
 }
+*/

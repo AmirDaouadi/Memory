@@ -1,5 +1,9 @@
 #include<stdlib.h>
 #include<graph.h>
+#include"easy.h"
+#include"medium.h"
+#include"hard.h"
+
 
 
 typedef struct {
@@ -52,13 +56,13 @@ int main(void) {
 
     if(SourisCliquee()){
       if(checkzone(easy, _X, _Y)) {
-        boucle = 0;
+        facile();
       }
       if(checkzone(medium, _X, _Y)) {
-        boucle = 0;
+        moyen();
       }
       if(checkzone(hard, _X, _Y)) {
-        boucle = 0;
+        difficile();
       }
       if(checkzone(quitter, _X, _Y)) {
         boucle = 0;
