@@ -47,7 +47,7 @@ void facile(void) {
     for (unsigned int l = 0; l < 2; l += 1) {
         for (unsigned int c = 0; c < 2; c += 1) {
             DessinerRectangle( 330 + (c * 295)+15, 50 + (l * 295)+15 , 265 , 265 );
-            sprintf(file, "pp/%d.jpg", tab[i]);
+            sprintf(file, "pp/easy/%d.jpg", tab[i]);
             ChargerImage(file, 330 + (c * 295)+15, 50 + (l * 295)+15 , 0, 0, 265, 265);
             i++;
         }

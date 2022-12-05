@@ -31,16 +31,12 @@ int main(void) {
   int spriteEtoile1 = ChargerSprite("./pp/trophe.png");
   AfficherSprite(spriteEtoile1,65,270);
   
-  dessinerbouton(hard, "Hard", CouleurParNom("black"), 2);
   dessinerbouton(quitter, "Quitter", CouleurParNom("red"), 2);
 
   while(boucle) {
     SourisPosition();
 
     if(SourisCliquee()){
-      if(checkzone(hard, _X, _Y)) {
-        boucle = 0;
-      }
       if(checkzone(quitter, _X, _Y)) {
         boucle = 0;
       }

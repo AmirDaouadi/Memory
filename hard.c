@@ -39,13 +39,14 @@ void difficile(void) {
         t = tab[m];
         tab[m] = tab[k];
         tab[k] = t;
-    }  
-        i=0;
+    }
+
+    i=0;
     for (unsigned int l = 0; l < 8; l += 1) {
         for (unsigned int c = 0; c < 8; c += 1) {
-            DessinerRectangle( 340 + (c * 85)+5, 35 + (l * 85)+15 , 75 , 75 );
-            sprintf(file, "pp/hard//%d.jpg", tab[i]);
-            ChargerImage(file, 340 + (c * 85)+5, 35 + (l * 85)+5 , 0, 0, 75, 75);
+            DessinerRectangle( 235 + (c * 100)+5, 35 + (l * 85)+15 , 75 , 75 );
+            sprintf(file, "pp/hard/%d.jpg", tab[i]);
+            ChargerImage(file, 235 + (c * 100)+5, 35 + (l * 85)+15 , 0, 0, 75, 75);
             i++;
         }
     }
@@ -58,11 +59,3 @@ void difficile(void) {
 
     Touche();
 }
-/*
-int main (void) {
-    InitialiserGraphique();
-    CreerFenetre(0 , 0 , 1250 , 750);
-    difficile();
-    return EXIT_SUCCESS;
-}
-*/
