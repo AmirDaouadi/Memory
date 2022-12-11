@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -lgraph
+CFLAGS = -lgraph -ansi
 EXE = jeu
-OFILES = InterfaceGraphique.o timer.o easy.o medium.o hard.o
+OFILES = InterfaceGraphique.o timer.o easy.o medium.o hard.o fin.o
  
 but : ${EXE}
  

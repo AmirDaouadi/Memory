@@ -1,29 +1,11 @@
 #include<stdlib.h>
 #include<graph.h>
+#include"InterfaceGraphique.h"
 
-
-typedef struct {
-    int x,y,L,H;
-} Zone;
- 
- /*Check si une position (x,y) se trouve dans la zone; retourne 1 si dedans, sinon 0.*/
-int checkzone(Zone z, int x, int y) {
-    return x >= z.x && x <= z.x + z.L && y >= z.y && y <= z.y + z.H;
-}
-void dessinerbouton(Zone z, char* texte, couleur couleurtexte, int tailletexte) {
-    ChoisirCouleurDessin(couleurtexte);
-    EcrireTexte(z.x, 
-        z.y + z.H / 2 + TailleSupPolice(tailletexte) / 2,
-         texte, tailletexte);
-}
-
-int main(void) {
+void fin(void) {
   int boucle = 1;
-  Zone hard = {100,550, 150, 75};
-  Zone quitter = {20,5, 150, 75};
+  hitbox quitter = {20, 5, 150, 75};
 
-  InitialiserGraphique(); 
-  CreerFenetre(0,0,1250,750);
   ChargerImageFond("./pp/fin.jpg");
   EcrireTexte (875,250,"Tu es meilleur",1);
   int spriteEtoile = ChargerSprite("./pp/trophe.png");
@@ -33,19 +15,13 @@ int main(void) {
   
   dessinerbouton(quitter, "Quitter", CouleurParNom("red"), 2);
 
-  while(boucle) {
+  while (boucle) {
     SourisPosition();
-
-    if(SourisCliquee()){
-      if(checkzone(quitter, _X, _Y)) {
-        boucle = 0;
-      }
-
+    if (SourisCliquee()) {
+      if (check_hitbox(quitter, _X, _Y)) boucle = 0;
     }
-  
-    
   }
 
-  FermerGraphique();
-  return EXIT_SUCCESS;
+  LibererSprite(spriteEtoile);
+  LibererSprite(spriteEtoile1);
 }

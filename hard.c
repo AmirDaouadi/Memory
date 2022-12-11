@@ -3,22 +3,39 @@
 #include<graph.h>
 #include<time.h>
 #include"timer.h"
+#include"InterfaceGraphique.h"
+#include"fin.h"
+
+carte creation_carte_hard(int ligne, int colonne, int fichier) {
+    char image[20];
+    sprintf(image, "pp/hard/%d.jpg", fichier);
+    ChargerImage(image, 235 + (colonne * 100) + 5, 35 + (ligne * 85) + 5 , 0, 0, 75, 75);
+    hitbox h = {235 + (colonne * 100) + 5, 35 + (ligne * 85) + 5, 75, 75};
+    carte c = {h, 0, 0, fichier};
+    return c;
+}
 
 void difficile(void) {
-    int i, j, t, used, r, l, c;
-    int* tab = malloc(sizeof(int) * 64);
-    char *file = (char*)malloc(30 * sizeof(char));
+    int tab[64], i, r, used, j, t, ligne, colonne;
+    int ancienne_carte_ligne = -1;
+    int ancienne_carte_colonne = -1;
+    unsigned long pause;
     size_t k, m;
+    carte tableau_carte[8][8];
+    carte c;
     srand(time(NULL));
     ChargerImageFond("./pp/ciel.jpg");
+    ChoisirEcran(1);
+    ChargerImageFond("./pp/ciel.jpg");
+    ChoisirEcran(0);
     ChoisirCouleurDessin(CouleurParNom("black"));
 
-    for(i = 0; i < 32;) {
+    for (i = 0; i < 35;) {
         r = rand() % 60 + 1;
         used = 0;
 
         for (j = 0; j < i; j++) {
-            if(tab[j] == r) {
+            if (tab[j] == r) {
                 used = 1;
                 break;
             }
@@ -42,20 +59,63 @@ void difficile(void) {
     }
 
     i=0;
-    for (unsigned int l = 0; l < 8; l += 1) {
-        for (unsigned int c = 0; c < 8; c += 1) {
-            DessinerRectangle( 235 + (c * 100)+5, 35 + (l * 85)+15 , 75 , 75 );
-            sprintf(file, "pp/hard/%d.jpg", tab[i]);
-            ChargerImage(file, 235 + (c * 100)+5, 35 + (l * 85)+15 , 0, 0, 75, 75);
+    ChoisirEcran(2);
+    ChargerImage("pp/hard/carte.jpg", 240, 40, 0, 0, 75, 75);
+    ChoisirEcran(1);
+    for (ligne = 0; ligne < 8; ligne += 1) {
+        for (colonne = 0; colonne < 8; colonne += 1) {
+            tableau_carte[ligne][colonne] = creation_carte_hard(ligne, colonne, tab[i]);
+            CopierZone(2, 0, 240, 40, 75, 75, 235 + (colonne * 100) + 5, 35 + (ligne * 85) + 5);
             i++;
         }
     }
-    
+    ChoisirEcran(0);
+
     unsigned long chrono = timer(0);
-
-    while (1) {
+    int nombre_cartes_trouvees = 0;
+    while (nombre_cartes_trouvees < 64) {
         maj_timer(chrono);
-    }
 
-    Touche();
+        SourisPosition();
+        if (SourisCliquee()) {
+            for (ligne = 0; ligne < 8; ligne += 1) {
+                for (colonne = 0; colonne < 8; colonne += 1) {
+                    if (check_hitbox(tableau_carte[ligne][colonne].hitbox, _X, _Y) && !tableau_carte[ligne][colonne].affichee && !tableau_carte[ligne][colonne].trouvee) {
+                        CopierZone(1, 0, tableau_carte[ligne][colonne].hitbox.positionX, tableau_carte[ligne][colonne].hitbox.positionY, 75, 75, tableau_carte[ligne][colonne].hitbox.positionX, tableau_carte[ligne][colonne].hitbox.positionY);
+                        tableau_carte[ligne][colonne].affichee = 1;
+                        if (ancienne_carte_ligne != -1) {
+                            if (!tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].trouvee && tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].affichee && (tableau_carte[ligne][colonne].hitbox.positionX != tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].hitbox.positionX || tableau_carte[ligne][colonne].hitbox.positionY != tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].hitbox.positionY)) {
+                                if (tableau_carte[ligne][colonne].numero == tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].numero) {
+                                    tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].trouvee = 1;
+                                    tableau_carte[ligne][colonne].trouvee = 1;
+                                    nombre_cartes_trouvees += 2;
+                                } else {
+                                    pause = Microsecondes() + 1000000;
+                                    while (Microsecondes() < pause);
+                                    while (SourisCliquee());
+                                    CopierZone(2, 0, 240, 40, 75, 75, tableau_carte[ligne][colonne].hitbox.positionX, tableau_carte[ligne][colonne].hitbox.positionY);
+                                    tableau_carte[ligne][colonne].affichee = 0;
+                                    CopierZone(2, 0, 240, 40, 75, 75, tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].hitbox.positionX, tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].hitbox.positionY);
+                                    tableau_carte[ancienne_carte_ligne][ancienne_carte_colonne].affichee = 0;
+                                }
+                            }
+                        }
+                        ancienne_carte_ligne = ligne;
+                        ancienne_carte_colonne = colonne;
+                    }
+                }
+            }
+        }
+
+        if (ToucheEnAttente() && Touche()==XK_t){
+            chrono = end_timer(chrono);
+            CopierZone(0, 4, 240, 40, 770, 670, 240, 40);
+            CopierZone(1, 0, 240, 40, 770, 670, 240, 40);
+            while (Touche() != XK_t);
+            CopierZone(4, 0, 240, 40, 770, 670, 240, 40);
+            while (SourisCliquee());
+            chrono = timer(chrono);
+        }
+    }
+    fin();
 }
